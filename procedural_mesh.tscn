@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://3r3q6wfasjod"]
+
+[node name="ProceduralMesh" type="ProceduralMesh"]
+transform = Transform3D(-0.789449, 0, -0.613063, 0, 1, 0, 0.613056, 0, -0.789451, 0, 0, 0)

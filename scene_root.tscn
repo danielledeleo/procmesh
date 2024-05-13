@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=3 uid="uid://7dtkoafs3gii"]
+
+[ext_resource type="Texture2D" uid="uid://o3jwjdrxdgs7" path="res://assets/evening_field_4k.exr" id="1_0x3i0"]
+[ext_resource type="Script" path="res://scripts/MainCamera.cs" id="1_218y6"]
+[ext_resource type="Script" path="res://MyMesh/my_mesh.cs" id="1_alrh3"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ngou0"]
+rayleigh_color = Color(0.301961, 0.454902, 0.6, 1)
+mie_eccentricity = 0.3
+turbidity = 2.0
+ground_color = Color(0.7031, 0.79, 0.724825, 1)
+
+[sub_resource type="Sky" id="Sky_6ml3h"]
+sky_material = SubResource("PhysicalSkyMaterial_ngou0")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_8m0v3"]
+background_mode = 2
+background_energy_multiplier = 2.04
+sky = SubResource("Sky_6ml3h")
+sky_custom_fov = 29.0
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.2
+reflected_light_source = 2
+tonemap_mode = 1
+ssao_enabled = true
+ssao_sharpness = 0.78
+ssao_light_affect = 1.0
+ssao_ao_channel_affect = 0.27
+ssil_enabled = true
+fog_light_color = Color(0.758041, 0.781613, 0.818655, 1)
+fog_sun_scatter = 0.13
+fog_height = 734.05
+volumetric_fog_density = 0.0177
+volumetric_fog_gi_inject = 3.07
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_yi3dw"]
+albedo_color = Color(0.607843, 0.941176, 0.682353, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tthc5"]
+material = SubResource("ORMMaterial3D_yi3dw")
+size = Vector2(200, 200)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_syupy"]
+panorama = ExtResource("1_0x3i0")
+
+[sub_resource type="Sky" id="Sky_3omlj"]
+sky_material = SubResource("PanoramaSkyMaterial_syupy")
+
+[sub_resource type="Environment" id="Environment_km8ll"]
+sky = SubResource("Sky_3omlj")
+ambient_light_source = 3
+tonemap_mode = 2
+sdfgi_enabled = true
+
+[node name="SceneRoot" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -4.79191e-15, -8.74228e-08, -1.89769e-08, 0.976156, 0.21707, 8.53383e-08, 0.21707, -0.976156, -0.00252962, 2.96249, -8.63765)
+environment = SubResource("Environment_8m0v3")
+fov = 40.5
+script = ExtResource("1_218y6")
+
+[node name="Cube" type="Node3D" parent="."]
+transform = Transform3D(0.966377, 0, -0.253206, 0, 1, 0, 0.253256, 0, 0.96633, 2.08165e-12, 0.5, 2.08165e-12)
+script = ExtResource("1_alrh3")
+rotationSpeed = 0.4
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain"]
+mesh = SubResource("PlaneMesh_tthc5")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.927184, 0.27926, -0.249687, 2.32478e-16, 0.666532, 0.745476, 0.374607, 0.691193, -0.617998, 0, 6.73927, -16.91)
+light_color = Color(1, 0.956863, 0.839216, 1)
+light_indirect_energy = 0.0
+light_angular_distance = 0.5
+shadow_enabled = true
+shadow_opacity = 0.83
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_km8ll")
